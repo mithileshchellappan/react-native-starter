@@ -1,6 +1,7 @@
 {
   "name": "demo2",
   "displayName": "demo2",
+  "orientation":"potrait",
   "expo": {
     "name": "demo2",
     "slug": "demo2",

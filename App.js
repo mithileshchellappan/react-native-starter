@@ -1,28 +1,33 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Appbar } from "react-native-paper";
 import {
   SafeAreaView,
   StyleSheet,
   Text,
+  Dimensions,
   View,
   Image,
   TouchableHighlight,
   Button,
-  Alert
-
+  Alert,
+  StatusBar,
+  Platform,
 } from "react-native";
-import { Provider as PaperProvider } from "react-native-paper";
-
+import {
+  useDimensions,
+  useDeviceOrientation,
+} from "@react-native-community/hooks";
 export default function App() {
-  const handlePress = () => console.log("object");
-  console.log(require("./assets/icon.jpg"));
+  const { landscape } = useDeviceOrientation();
   return (
     <SafeAreaView style={styles.wow}>
-      <Button color="orange" title="wow" onPress={()=>Alert.alert('wow','message',[
-        {text:'Nope',onPress:()=>console.log('nope')},
-        {text:'Yes',onPress:()=>console.log('yes')}
-      ])}/>
+      <View
+        style={{
+          backgroundColor: "dodgerblue",
+          width: "100%",
+          height: landscape ? "100%" : "30%",
+        }}
+      ></View>
     </SafeAreaView>
   );
 }
@@ -31,7 +36,6 @@ const styles = StyleSheet.create({
   wow: {
     flex: 1,
     backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });
