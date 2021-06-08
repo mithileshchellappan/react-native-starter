@@ -8,6 +8,8 @@ import {
   View,
   Image,
   TouchableHighlight,
+  Button,
+  Alert
 
 } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
@@ -17,20 +19,10 @@ export default function App() {
   console.log(require("./assets/icon.jpg"));
   return (
     <SafeAreaView style={styles.wow}>
-      <Text numberOfLines={1} onPress={handlePress}>
-        Hellow World
-      </Text>
-      <TouchableHighlight onPress={handlePress}>
-        {/* <Image
-          fadeDuration={1000}
-          source={{
-            height: 600,
-            width: 300,
-            uri: "https://picsum.photos/600/00",
-          }}
-        /> */}
-        <View style={{width:200,height:70,backgroundColor:"dodgerblue"}}></View>
-      </TouchableHighlight>
+      <Button color="orange" title="wow" onPress={()=>Alert.alert('wow','message',[
+        {text:'Nope',onPress:()=>console.log('nope')},
+        {text:'Yes',onPress:()=>console.log('yes')}
+      ])}/>
     </SafeAreaView>
   );
 }
