@@ -1,5 +1,7 @@
 import React from "react";
 import { Appbar } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -13,17 +15,14 @@ import {
   StatusBar,
   Platform,
 } from "react-native";
-import {
-  useDimensions,
-  useDeviceOrientation,
-} from "@react-native-community/hooks";
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import ViewImageScreen from "./app/screens/ViewImageScreen";
+import AppText from "./app/components/AppText";
+
 export default function App() {
-  const { landscape } = useDeviceOrientation();
   return (
-    <ViewImageScreen/>
-    );
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <MaterialCommunityIcons name="email" size={60} color="dodgerblue" />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
