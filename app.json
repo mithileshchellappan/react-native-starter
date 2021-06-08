@@ -2,6 +2,7 @@
   "name": "demo2",
   "displayName": "demo2",
   "orientation":"potrait",
+  "icon":"./app/assets/icon.jpg",
   "expo": {
     "name": "demo2",
     "slug": "demo2",
