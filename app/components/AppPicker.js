@@ -6,32 +6,41 @@ import {
   TouchableWithoutFeedback,
   Modal,
   FlatList,
+  Button,
 } from "react-native";
 import Screen from "./Screen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import defaultStyles from "../config/styles";
 import AppText from "./AppText";
-import { Button } from "react-native-paper";
 import PickerItem from "../components/PickerItem";
-function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
+function AppPicker({
+  icon,
+  placeholder,
+  items,
+  onSelectItem,
+  PickerItemComponent = PickerItem,
+  selectedItem,
+  width = "100%",
+  numberOfColumns=1
+}) {
   const [modalVisible, setmodalVisible] = useState(false);
 
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setmodalVisible(true)}>
-        <View style={styles.container}>
+        <View style={[styles.container, { width: width }]}>
           {icon && (
             <MaterialCommunityIcons
-              name={icon}
               size={20}
               color={defaultStyles.colors.medium}
               style={styles.icon}
             />
           )}
-          <AppText style={styles.text}>
+          <AppText style={selectedItem ? styles.text : { color: "grey" }}>
             {selectedItem ? selectedItem.label : placeholder}
           </AppText>
           <MaterialCommunityIcons
+            style={styles.icon}
             name="chevron-down"
             size={20}
             color={defaultStyles.colors.medium}
@@ -41,12 +50,20 @@ function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
 
       <Modal visible={modalVisible} animationType="slide">
         <Screen>
-          <Button onPress={() => setmodalVisible(false)}>Wow</Button>
+          <Button
+            color="white"
+            titleTextColor="black"
+            style={styles.button}
+            onPress={() => setmodalVisible(false)}
+            title="Close"
+          ></Button>
           <FlatList
+          numColumns={numberOfColumns}
             data={items}
             keyExtractor={(item) => item.value.toString()}
             renderItem={({ item }) => (
-              <PickerItem
+              <PickerItemComponent
+                item={item}
                 label={item.label}
                 onPress={() => {
                   setmodalVisible(false);
@@ -66,12 +83,16 @@ const styles = StyleSheet.create({
     backgroundColor: defaultStyles.colors.light,
     borderRadius: 25,
     flexDirection: "row",
-    width: "100%",
     padding: 15,
     marginVertical: 10,
   },
+  button: {
+    backgroundColor: "white",
+    color: "black",
+  },
   icon: {
-    marginRight: 10,
+    marginLeft: -20,
+    paddingRight: 20,
   },
   text: {
     flex: 1,
