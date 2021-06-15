@@ -4,6 +4,8 @@ import Screen from "./app/components/Screen";
 import AppButton from "./app/components/AppButton";
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "./app/components/ImageInput";
+import ImageInputList from "./app/components/ImageInputList";
+import { set } from "react-native-reanimated";
 
 const categories = [
   { label: "Furniture", value: 1 },
@@ -12,34 +14,20 @@ const categories = [
 ];
 
 export default function App() {
-  const [imageUri, setImageUri] = useState();
+  const [imageUris, setImageUris] = useState([]);
 
-  const requestPermission = async () => {
-    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!granted) alert("Enable permission to access the library");
+  const handleAdd = (uri) => {
+    setImageUris([...imageUris, uri]);
   };
-
-  useEffect(() => {
-    requestPermission();
-  }, []);
-
-  const selectImage = async () => {
-    try {
-      const res = await ImagePicker.launchImageLibraryAsync();
-      console.log(res);
-      if (!res.cancelled) {
-        setImageUri(res.uri);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleRemove = (uri) => {
+    setImageUris(imageUris.filter((imageUri) => imageUri !== uri));
   };
-
   return (
     <Screen>
-      <ImageInput
-        imageUri={imageUri}
-        onChangeImage={(uri) => setImageUri(uri)}
+      <ImageInputList
+        imageUris={imageUris}
+        onAddImage={handleAdd}
+        onRemoveImage={handleRemove}
       />
     </Screen>
   );

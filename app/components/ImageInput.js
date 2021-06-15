@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -11,35 +11,34 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 function ImageInput({ imageUri, onChangeImage }) {
+  const requestPermission = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!granted) alert("Enable permission to access the library");
+  };
 
-    const requestPermission = async () => {
-        const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (!granted) alert("Enable permission to access the library");
-      };
-    
-      useEffect(() => {
-        requestPermission();
-      }, []);
-
+  useEffect(() => {
+    requestPermission();
+  }, []);
 
   const handlePress = () => {
     if (!imageUri) selectImage();
     else {
-      Alert.alert("Delete?", "Are you sure you want to delete this image?", [{
-        text: "Yes",
-        onPress: () => onChangeImage(null),
-      },
-      {text:'No'}]
-      );
+      Alert.alert("Delete?", "Are you sure you want to delete this image?", [
+        {
+          text: "Yes",
+          onPress: () => onChangeImage(null),
+        },
+        { text: "No" },
+      ]);
     }
   };
 
   const selectImage = async () => {
     try {
       const res = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 1,
+        allowsMultipleSelection: true,
       });
       console.log(res);
       if (!res.cancelled) {
@@ -74,6 +73,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     overflow: "hidden",
+    marginHorizontal: 7,
   },
   image: {
     width: "100%",
