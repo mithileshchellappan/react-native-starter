@@ -1,19 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Image } from "react-native";
+import React, { Text } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 import Screen from "./app/components/Screen";
-import AppButton from "./app/components/AppButton";
-import * as ImagePicker from "expo-image-picker";
-import ImageInput from "./app/components/ImageInput";
-import ImageInputList from "./app/components/ImageInputList";
-import { set } from "react-native-reanimated";
+import { NavigationContainer } from "@react-navigation/native";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
+import WelcomeScreen from './app/screens/WelcomeScreen'
+const Tweets = () => (
+  <Screen>
+    <ListingEditScreen />
+  </Screen>
+);
 
-const categories = [
-  { label: "Furniture", value: 1 },
-  { label: "Clothing", value: 2 },
-  { label: "Cameras", value: 3 },
-];
+const TweetDetails = () => (
+  <Screen>
+    <WelcomeScreen/>
+  </Screen>
+);
+
+const Stack = createStackNavigator();
+const StackNavigator = () => (
+  <Stack.Navigator initialRouteName="TweetDetails">
+    <Stack.Screen name="Tweets" component={Tweets} />
+    <Stack.Screen name="TweetDetails" component={TweetDetails} />
+  </Stack.Navigator>
+);
 
 export default function App() {
-  return <ListingEditScreen />;
+  return (
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
+  );
 }
