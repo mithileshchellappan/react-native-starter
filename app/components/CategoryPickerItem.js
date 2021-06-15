@@ -5,7 +5,7 @@ import AppText from "./AppText";
 function CategoryPickerItem({ item, onPress }) {
   return (
     <View style={styles.container}>
-      <Icon backgroundColor={item.backgroundColor} name={item.icon} size={80} />
+      <Icon backgroundColor={item.backgroundColor} name={item.icon} size={80} onPress={onPress} />
       <AppText style={styles.label}>{item.label}</AppText>
     </View>
   );

@@ -1,4 +1,3 @@
-import { ErrorMessage } from "formik";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import ImageInputList from "./ImageInputList";
