@@ -1,24 +1,10 @@
-import React, { useState } from "react";
-import { Appbar } from "react-native-paper";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-import { View, Text, TextInput, Switch } from "react-native";
-import AppText from "./app/components/AppText";
-import AppButton from "./app/components/AppButton";
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import Card from "./app/components/Card";
-import ListingDetailScreen from "./app/screens/ListingDetailScreen";
-import ViewImageScreen from "./app/screens/ViewImageScreen";
-import MessagesScreen from "./app/screens/MessagesScreen";
+import React, { useState, useEffect } from "react";
+import { Image } from "react-native";
 import Screen from "./app/components/Screen";
-import Icon from "./app/components/Icon";
-import ListItem from "./app/components/ListItem";
-import AccountScreen from "./app/screens/AccountScreen";
-import ListingsScreen from "./app/screens/ListingsScreen";
-import AppTextInput from "./app/components/AppTextInput";
-import AppPicker from "./app/components/AppPicker";
-import LoginScreen from "./app/screens/LoginScreen";
-import ListingEditScreen from "./app/screens/ListingEditScreen";
+import AppButton from "./app/components/AppButton";
+import * as ImagePicker from "expo-image-picker";
+import ImageInput from "./app/components/ImageInput";
+
 const categories = [
   { label: "Furniture", value: 1 },
   { label: "Clothing", value: 2 },
@@ -26,9 +12,35 @@ const categories = [
 ];
 
 export default function App() {
-  const [isNew, setisNew] = useState("");
-  const [category, setcategory] = useState(categories[0]);
+  const [imageUri, setImageUri] = useState();
+
+  const requestPermission = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!granted) alert("Enable permission to access the library");
+  };
+
+  useEffect(() => {
+    requestPermission();
+  }, []);
+
+  const selectImage = async () => {
+    try {
+      const res = await ImagePicker.launchImageLibraryAsync();
+      console.log(res);
+      if (!res.cancelled) {
+        setImageUri(res.uri);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <ListingEditScreen/>
+    <Screen>
+      <ImageInput
+        imageUri={imageUri}
+        onChangeImage={(uri) => setImageUri(uri)}
+      />
+    </Screen>
   );
 }
