@@ -1,25 +1,66 @@
-import React, { Text } from "react";
+import React from "react";
+import { Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Screen from "./app/components/Screen";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
-import WelcomeScreen from './app/screens/WelcomeScreen'
-const Tweets = () => (
+import WelcomeScreen from "./app/screens/WelcomeScreen";
+import AppButton from "./app/components/AppButton";
+
+const Link = () => {
+  const navigation = useNavigation();
+
+  return (
+    <AppButton
+      title="click"
+      onPress={() => navigation.navigate("TweetDetails")}
+    />
+  );
+};
+
+const Tweets = ({ navigation }) => (
   <Screen>
-    <ListingEditScreen />
+    <Text>Tweet </Text>
+    <AppButton
+      title="View Tweet"
+      onPress={() => navigation.navigate("TweetDetails", { id: "1" })}
+    />
   </Screen>
 );
 
-const TweetDetails = () => (
+const Tab = createBottomTabNavigator();
+const TabNavigator = () => (
+  <Tab.Navigator>
+    <Tab.Screen name="Feed" component={Tweets} />
+    <Tab.Screen name="Tweet Details" component={TweetDetails} />
+  </Tab.Navigator>
+);
+
+const TweetDetails = ({ route }) => (
   <Screen>
-    <WelcomeScreen/>
+    <Text>Tweet Details </Text>
   </Screen>
 );
 
 const Stack = createStackNavigator();
 const StackNavigator = () => (
-  <Stack.Navigator initialRouteName="TweetDetails">
-    <Stack.Screen name="Tweets" component={Tweets} />
+  <Stack.Navigator
+    initialRouteName="Tweets"
+    screenOptions={{
+      headerStyle: { backgroundColor: "tomato" },
+      headerTintColor: "white",
+    }}
+  >
+    <Stack.Screen
+      name="Tweets"
+      component={Tweets}
+      options={{
+        headerStyle: { backgroundColor: "dodgerblue" },
+        headerTintColor: "white",
+        headerShown: true,
+      }}
+    />
     <Stack.Screen name="TweetDetails" component={TweetDetails} />
   </Stack.Navigator>
 );
