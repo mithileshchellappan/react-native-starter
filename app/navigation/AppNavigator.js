@@ -1,0 +1,62 @@
+import React from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AccountScreen from "../screens/AccountScreen";
+import ListingEditScreen from "../screens/ListingEditScreen";
+import ListingsScreen from "../screens/ListingsScreen";
+import FeedNavigator from "./FeedNavigator";
+import AccountNavigator from "./AccountNavigator";
+import NewListingButton from "./NewListingButton";
+import routes from "./routes";
+
+const Tab = createBottomTabNavigator();
+
+const AppNavigator = () => (
+  <Tab.Navigator
+    tabBarOptions={{
+      activeBackgroundColor: "white",
+      activeTintColor: "red",
+      inactiveBackgroundColor: "white",
+      inactiveTintColor: "gray",
+    }}
+  >
+    <Tab.Screen
+      name={routes.FEED_SCREEN}
+      component={FeedNavigator}
+      options={{
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons name="home" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name={routes.LISTING_EDIT_SCREEN}
+      component={ListingEditScreen}
+      options={({navigation})=>({
+        title: "Add",
+        showLabel: false,
+        activeTintColor: "white",
+        inactiveTintColor: "white",
+        tabBarButton:()=><NewListingButton onPress={()=>navigation.navigate(routes.LISTING_EDIT_SCREEN)}/>,
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons
+            name="plus-circle"
+            size={size}
+            color={color}
+          />
+        ),
+      })}
+    />
+    <Tab.Screen
+      name={routes.ACCOUNT_SCREEN}
+      component={AccountNavigator}
+      options={{
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons name="account" size={size} color={color} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
+);
+
+export default AppNavigator;

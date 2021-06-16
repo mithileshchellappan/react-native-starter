@@ -1,8 +1,10 @@
 import React from "react";
-import { FlatList,StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Card from "../components/Card";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
+import routes from "../navigation/routes";
 
 const listings = [
   {
@@ -19,7 +21,8 @@ const listings = [
   },
 ];
 
-function ListingsScreen() {
+function ListingsScreen({ navigation }) {
+  console.log("navigation", navigation);
   return (
     <Screen style={styles.screen}>
       <FlatList
@@ -27,6 +30,11 @@ function ListingsScreen() {
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <Card
+            onPress={() =>
+              navigation.navigate(routes.LISTING_DETAILS, {
+                item,
+              })
+            }
             title={item.title}
             subTitle={"$" + item.price}
             image={item.image}
@@ -37,9 +45,9 @@ function ListingsScreen() {
   );
 }
 const styles = StyleSheet.create({
-    screen:{
-        padding:15,
-        backgroundColor:colors.light
-    }
-})
+  screen: {
+    padding: 15,
+    backgroundColor: colors.light,
+  },
+});
 export default ListingsScreen;

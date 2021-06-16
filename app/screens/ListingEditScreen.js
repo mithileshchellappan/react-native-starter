@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 import Screen from "../components/Screen";
@@ -11,6 +11,8 @@ import { validateYupSchema } from "formik";
 import AppFormImagePicker from "../components/AppFormImagePicker";
 import * as Location from "expo-location";
 import useLocation from "../hooks/useLocation";
+import colors from "../config/colors";
+import { createStackNavigator } from "@react-navigation/stack";
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
   price: Yup.number().required().min(1).max(10000).label("Price"),
@@ -25,10 +27,9 @@ const categories = [
   { label: "Camera", value: 3, backgroundColor: "blue", icon: "lock" },
 ];
 function ListingEditScreen() {
-
   const location = useLocation();
   return (
-    <Screen>
+    <Screen style={{ backgroundColor: colors.light }}>
       <AppForm
         initialValues={{
           title: "",
