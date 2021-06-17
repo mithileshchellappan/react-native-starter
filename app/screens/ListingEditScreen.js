@@ -27,7 +27,6 @@ const categories = [
   { label: "Camera", value: 3, backgroundColor: "blue", icon: "lock" },
 ];
 function ListingEditScreen() {
-  const location = useLocation();
   return (
     <Screen style={{ backgroundColor: colors.light }}>
       <AppForm
@@ -38,7 +37,7 @@ function ListingEditScreen() {
           category: null,
           images: [],
         }}
-        onSubmit={(values) => console.log(location)}
+        onSubmit={(values) => console.log('wow')}
         validationSchema={validationSchema}
       >
         <AppFormImagePicker name="images" />
