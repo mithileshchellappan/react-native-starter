@@ -11,6 +11,7 @@ import AppFormImagePicker from "../components/AppFormImagePicker";
 import listingsApi from "../api/listings";
 import useLocation from "../hooks/useLocation";
 import colors from "../config/colors";
+import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -27,18 +28,32 @@ const categories = [
 ];
 function ListingEditScreen() {
   const location = useLocation();
-  const handleSubmit = async (listing) => {
-    const result = await listingsApi.addListing({ ...listing, location },
-      progress=>console.log(progress)
-      );
-    if(!result.ok){
-      return alert('Could not add listing')
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const handleSubmit = async (listing,{resetForm}) => {
+    setProgress(0);
+    setUploadVisible(true);
+    const result = await listingsApi.addListing(
+      { ...listing, location },
+      (progress) => setProgress(progress)
+    );
+
+    if (!result.ok) {
+      setUploadVisible(false);
+      return alert("Could not add listing");
     }
-    alert('Success')
+
+    resetForm();
   };
 
   return (
     <Screen style={{ backgroundColor: colors.light }}>
+      <UploadScreen
+        progress={progress}
+        visible={uploadVisible}
+        onDone={() => setUploadVisible(false)}
+      />
+
       <AppForm
         initialValues={{
           title: "",
