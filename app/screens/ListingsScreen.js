@@ -14,7 +14,7 @@ import useApi from "../hooks/useApi";
 function ListingsScreen({ navigation }) {
   const {data:listings,error,loading,request:loadListings}=useApi(listingsApi.getListings)
   useEffect(() => {
-    loadListings();
+    loadListings(1,2,3);
   }, []);
 
   
