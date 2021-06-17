@@ -39,7 +39,7 @@ function ListingsScreen({ navigation }) {
             }
             title={item.title}
             subTitle={"$" + item.price}
-            imageUrl={item.images[0].url}
+            imageUrl={item?.images[0].url}
           />
         )}
       />

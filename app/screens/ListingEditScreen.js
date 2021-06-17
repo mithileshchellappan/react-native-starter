@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+
 import * as Yup from "yup";
 import Screen from "../components/Screen";
 import AppForm from "../components/forms/AppForm";
 import AppFormField from "../components/AppFormField";
 import AppFormPicker from "../components/AppFormPicker";
 import SubmitButton from "../components/SubmitButton";
-import CategoryPickerItem from "../components/CategoryPickerItem";
-import { validateYupSchema } from "formik";
+
 import AppFormImagePicker from "../components/AppFormImagePicker";
-import * as Location from "expo-location";
+import listingsApi from "../api/listings";
 import useLocation from "../hooks/useLocation";
 import colors from "../config/colors";
-import { createStackNavigator } from "@react-navigation/stack";
+
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
   price: Yup.number().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Description"),
   category: Yup.object().required().nullable().label("Category"),
-  images: Yup.array().min(1, "Atleast one Image is required"),
+  images: Yup.array(),
 });
 
 const categories = [
@@ -27,6 +26,17 @@ const categories = [
   { label: "Camera", value: 3, backgroundColor: "blue", icon: "lock" },
 ];
 function ListingEditScreen() {
+  const location = useLocation();
+  const handleSubmit = async (listing) => {
+    const result = await listingsApi.addListing({ ...listing, location },
+      progress=>console.log(progress)
+      );
+    if(!result.ok){
+      return alert('Could not add listing')
+    }
+    alert('Success')
+  };
+
   return (
     <Screen style={{ backgroundColor: colors.light }}>
       <AppForm
@@ -37,7 +47,7 @@ function ListingEditScreen() {
           category: null,
           images: [],
         }}
-        onSubmit={(values) => console.log('wow')}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <AppFormImagePicker name="images" />
