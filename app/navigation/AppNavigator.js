@@ -1,4 +1,5 @@
 import React from "react";
+import { StyleSheet } from 'react-native'
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AccountScreen from "../screens/AccountScreen";
@@ -13,6 +14,7 @@ const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => (
   <Tab.Navigator
+  
     tabBarOptions={{
       activeBackgroundColor: "white",
       activeTintColor: "red",
@@ -43,6 +45,7 @@ const AppNavigator = () => (
             name="plus-circle"
             size={size}
             color={color}
+            
           />
         ),
       })}
@@ -58,5 +61,9 @@ const AppNavigator = () => (
     />
   </Tab.Navigator>
 );
-
+const styles = StyleSheet.create({
+  container:{
+    overflow:"hidden"
+  }
+})
 export default AppNavigator;

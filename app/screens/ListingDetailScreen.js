@@ -1,15 +1,21 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import AppText from "../components/AppText";
 import ListItem from "../components/ListItem";
+import { Image } from "react-native-expo-image-cache";
 import colors from "../config/colors";
 
-function ListingDetailScreen({route}) {
-  console.log(route.params.item)
-  const item = route.params.item
+function ListingDetailScreen({ route }) {
+  console.log(route.params.item);
+  const item = route.params.item;
   return (
     <View>
-      <Image style={styles.image} source={{uri:item.images[0].url}} />
+      <Image
+        style={styles.image}
+        uri={item.images[0].url}
+        preview={{ uri: item.images[0].thumbnailUrl }}
+        tint="light"
+      />
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>{item.title}</AppText>
         <AppText style={styles.price}>${item.price}</AppText>
@@ -42,9 +48,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     marginVertical: 10,
-  },usercontainer:{
-      marginVertical:30
-  }
+  },
+  usercontainer: {
+    marginVertical: 30,
+  },
 });
 
 export default ListingDetailScreen;
