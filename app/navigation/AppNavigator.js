@@ -63,7 +63,7 @@ const AppNavigator = () => (
 );
 const styles = StyleSheet.create({
   container:{
-    overflow:"hidden"
+   
   }
 })
 export default AppNavigator;

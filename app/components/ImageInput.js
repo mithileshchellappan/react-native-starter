@@ -40,7 +40,6 @@ function ImageInput({ imageUri, onChangeImage }) {
         quality: 1,
         allowsMultipleSelection: true,
       });
-      console.log(res);
       if (!res.cancelled) {
         onChangeImage(res.uri);
       }

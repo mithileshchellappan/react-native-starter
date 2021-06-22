@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import navigationtheme from "./app/navigation/navigationtheme";
 import AppNavigator from "./app/navigation/AppNavigator";
-import { AsyncStorage } from "react-native";
-import NetInfo,{useNetInfo} from '@react-native-community/netinfo'
+import AppLoading from "expo-app-loading";
+import OfflineNotice from "./app/components/OfflineNotice";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import AuthContext from "./app/auth/context";
+import authStorage from "./app/auth/storage";
+import jwtDecode from "jwt-decode";
 
 export default function App() {
- const netInfo = useNetInfo();
-  const demo = async () => {
-    try {
-      await AsyncStorage.setItem("person", JSON.stringify({ id: 1 }));
-      const value = await AsyncStorage.getItem('person')
-      console.log(JSON.parse(value))
-    } catch (error) {
-      console.log(error)
-    }
+  const [user, setuser] = useState();
+
+  const [isReady, setIsReady] = useState(false);
+
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if (user) setuser(user);
   };
-  demo()
+  if (!isReady)
+    return (
+      <AppLoading
+        startAsync={restoreUser}
+        onFinish={() => setIsReady(true)}
+        onError={(error) => {
+          console.log(error);
+        }}
+      />
+    );
+
   return (
-    <NavigationContainer theme={navigationtheme}>
-      <AppNavigator />
-    </NavigationContainer>
+    <AuthContext.Provider value={{ user, setuser }}>
+      <OfflineNotice />
+      <NavigationContainer theme={navigationtheme}>
+        {/* <AppNavigator /> */}
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
