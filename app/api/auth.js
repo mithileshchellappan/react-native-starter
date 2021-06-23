@@ -8,4 +8,6 @@ const register = (name, email, password) =>
 const registerToken = (pushToken) =>
   client.post("/expoPushTokens", { token: pushToken });
 
-export default { login, register, registerToken };
+const send = (message,listingId)=> client.post("/messages",{message,listingId})
+
+export default { login, register, registerToken,send };

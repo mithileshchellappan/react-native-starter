@@ -14,7 +14,12 @@ import useNotification from "../hooks/useNotification";
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  useNotification();
+  useNotification(notificationHandler);
+
+  const notificationHandler = (notification)=>
+  {
+    console.log(notification)
+  }
 
   return (
     <Tab.Navigator

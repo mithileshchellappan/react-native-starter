@@ -6,7 +6,9 @@ import auth from "../api/auth";
 export default useNotifications = (notificationListener) => {
   useEffect(() => {
     registerForPushNotfications();
+    console.log('outside noti')
     if (notificationListener) {
+        console.log('in noti')
       Notifications.addPushTokenListener(notificationListener);
     }
   }, []);
