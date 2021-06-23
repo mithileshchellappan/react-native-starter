@@ -8,6 +8,7 @@ import AuthNavigator from "./app/navigation/AuthNavigator";
 import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
 import jwtDecode from "jwt-decode";
+import { navigationRef } from "./app/navigation/rootNavigation";
 
 export default function App() {
   const [user, setuser] = useState();
@@ -28,11 +29,11 @@ export default function App() {
         }}
       />
     );
-
+  
   return (
     <AuthContext.Provider value={{ user, setuser }}>
       <OfflineNotice />
-      <NavigationContainer theme={navigationtheme}>
+      <NavigationContainer ref={navigationRef} theme={navigationtheme}>
         {/* <AppNavigator /> */}
         {user ? <AppNavigator /> : <AuthNavigator />}
       </NavigationContainer>
